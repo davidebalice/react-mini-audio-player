@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
+
+.audioPlayer {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 300px;
+  background: rgba(0, 0, 0, 0.7);
+  height: 180px;
+  padding: 0px;
+  color: #fff;
+  position: fixed;
+  right: 0;
+  top: calc(50% - 100px);
+  transition: transform 0.3s ease, height 0.3s ease;
+  transform: translateX(270px);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  overflow: hidden;
+}
+
+.main {
+  padding: 0px;
+}
+
+.open {
+  transform: translateX(0);
+  height: 300px;
+}
+
+.content {
+  padding: 20px;
+}
+
+.playButton {
+  width: 23px;
+  cursor: pointer;
+}
+
+.playButton2 {
+  width: 33px;
+  cursor: pointer;
+}
+
+.playButton:hover,
+.playButton2:hover {
+  filter: brightness(0.85);
+}
+
+.dataContainer {
+  display: none;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sideButtons {
+  display: flex;
+  padding-top: 11px;
+  flex-direction: column;
+  gap: 10px;
+  width: 30px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.note {
+  width: 16px !important;
+}
+
+.openButton {
+  width: 100%;
+  height: 30px;
+  background: #667;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.openButton:hover {
+  background: #3f3f46;
+}
+
+.openArrow {
+  width: 7px;
+  margin-left: 12px;
+  margin-top: 1px;
+}
+
+.progressBar {
+  height: 7px;
+  background-color: #fff;
+  width: 80%;
+}
+
+.progressBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent;
+  border: none;
+  opacity: 0 !important;
+}
+
+.progressBar::-moz-range-thumb {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent;
+  border: none;
+  opacity: 0 !important;
+}
+
+.progressBar::-ms-thumb {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent;
+  border: none;
+  opacity: 0 !important;
+}
+
+.trackControls {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+
+
+.volumeControl {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 150px; /* Altezza del contenitore */
+   width: 40px; /* Larghezza minima */
+   margin: 0 auto;
+ }
+ 
+ .volumeSlider {
+   -webkit-appearance: none; /* Rimuove lo stile di default */
+   appearance: none;
+   width: 150px; /* Altezza effettiva dello slider (rotata diventa altezza verticale) */
+   height: 4px; /* Larghezza effettiva dello slider */
+   background: #ccc; /* Colore della barra */
+   outline: none;
+   transform: rotate(-90deg); /* Ruota lo slider verticalmente */
+   transform-origin: center;
+   cursor: pointer;
+ }
+ 
+ .volumeSlider::-webkit-slider-thumb {
+   -webkit-appearance: none;
+   appearance: none;
+   width: 12px;
+   height: 12px;
+   background: #0075ff;
+   border-radius: 100%;
+   cursor: pointer;
+ }
+ 
+ .volumeSlider::-moz-range-thumb {
+   width: 12px;
+   height: 12px;
+   background: #0075ff;
+   border-radius: 100%;
+   cursor: pointer;
+ }
+ 
+ .volumeSlider::-ms-thumb {
+   width: 12px;
+   height: 12px;
+   background: #0075ff;
+   border-radius: 100%;
+   cursor: pointer;
+ }
+
+ 
