@@ -1,24 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
+.flex {
+  display: flex;
+}
 
 .audioPlayer {
   font-family: Arial, Helvetica, sans-serif;
   width: 300px;
+  max-width: 100%;
   background: rgba(0, 0, 0, 0.7);
-  height: 180px;
+  height: 132px;
   padding: 0px;
   color: #fff;
   position: fixed;
   right: 0;
-  top: calc(50% - 100px);
+  top: calc(50% - 300px);
   transition: transform 0.3s ease, height 0.3s ease;
   transform: translateX(270px);
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   overflow: hidden;
-}
-
-.main {
-  padding: 0px;
+  z-index: 100;
 }
 
 .open {
@@ -51,7 +51,19 @@
   margin-top: 20px;
   justify-content: start;
   align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.playerContainer {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-top: 2px;
+  justify-content: start;
+  align-items: center;
   flex-direction: column;
+  transition: transform 0.3s ease, width 0.3s ease;
 }
 
 .sideButtons {
@@ -69,11 +81,12 @@
   width: 16px !important;
 }
 
-.openButton {
+.header {
   width: 100%;
   height: 30px;
   background: #667;
   color: white;
+  overflow: hidden;
   cursor: pointer;
   font-size: 12px;
   display: flex;
@@ -82,14 +95,22 @@
   transition: background 0.3s ease;
 }
 
-.openButton:hover {
-  background: #3f3f46;
+.openArrow img {
+  width: 8px;
+  margin-left: 12px;
+  margin-top: 1px;
 }
 
 .openArrow {
-  width: 7px;
-  margin-left: 12px;
-  margin-top: 1px;
+  width: 30px;
+  height: 30px;
+  justify-content: start;
+  align-items: center;
+  display: flex;
+}
+
+.openArrow:hover {
+  background: #3f3f46;
 }
 
 .progressBar {
@@ -130,53 +151,127 @@
   width: 80%;
 }
 
-
-
 .volumeControl {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   height: 150px; /* Altezza del contenitore */
-   width: 40px; /* Larghezza minima */
-   margin: 0 auto;
- }
- 
- .volumeSlider {
-   -webkit-appearance: none; /* Rimuove lo stile di default */
-   appearance: none;
-   width: 150px; /* Altezza effettiva dello slider (rotata diventa altezza verticale) */
-   height: 4px; /* Larghezza effettiva dello slider */
-   background: #ccc; /* Colore della barra */
-   outline: none;
-   transform: rotate(-90deg); /* Ruota lo slider verticalmente */
-   transform-origin: center;
-   cursor: pointer;
- }
- 
- .volumeSlider::-webkit-slider-thumb {
-   -webkit-appearance: none;
-   appearance: none;
-   width: 12px;
-   height: 12px;
-   background: #0075ff;
-   border-radius: 100%;
-   cursor: pointer;
- }
- 
- .volumeSlider::-moz-range-thumb {
-   width: 12px;
-   height: 12px;
-   background: #0075ff;
-   border-radius: 100%;
-   cursor: pointer;
- }
- 
- .volumeSlider::-ms-thumb {
-   width: 12px;
-   height: 12px;
-   background: #0075ff;
-   border-radius: 100%;
-   cursor: pointer;
- }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  width: 40px;
+  margin: 0 auto;
+}
 
- 
+.volumeSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20%;
+  height: 4px;
+  background: #ccc;
+  outline: none;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  cursor: pointer;
+  display: none;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #0075ff;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #0075ff;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.volumeSlider::-ms-thumb {
+  width: 12px;
+  height: 12px;
+  background: #0075ff;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.playlistContainer {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 2px;
+  margin-top: 12px;
+  height: 110px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.playlistContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.playlistContainer::-webkit-scrollbar-thumb {
+  background-color: #666677;
+  border-radius: 3px;
+}
+
+.playlistContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.spacer {
+  margin: 0 auto;
+  margin-top: 10px;
+  border-top: 1px solid #666677;
+  width: 80%;
+}
+
+.playlistItem {
+  display: flex;
+  padding-right: 8px;
+  justify-content: space-between;
+}
+
+.playlistItem:hover {
+  color: #f1f1f1;
+  cursor: pointer;
+}
+
+.headerButton {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerButton:hover {
+  background: #3f3f46;
+}
+
+.headerButton img {
+  width: 17px;
+}
+
+.headerButton2 {
+  width: 30px;
+}
+
+.infoContainer {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-size: 13px;
+  height: 230px;
+  display: none;
+}
+
+.infoContainer a {
+  color: #fff;
+}

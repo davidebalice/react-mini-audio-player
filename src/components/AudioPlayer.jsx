@@ -8,10 +8,15 @@ import pauseIcon from "../audio/images/pause.png";
 import playIcon from "../audio/images/play.png";
 import prevIcon from "../audio/images/prev.png";
 import rightIcon from "../audio/images/right.png";
+import infoIcon from "../audio/images/info.png";
+import volumeIcon2 from "../audio/images/volume2.png";
+
 import classes from "../index.module.css";
 
 function AudioPlayer() {
   const [isOpen, setIsOpen] = useState(false);
+  const [volumeIsOpen, setVolumeIsOpen] = useState(false);
+  const [infoIsOpen, setInfoIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -21,6 +26,10 @@ function AudioPlayer() {
   const audioRef = useRef(null);
   const sideBarRef = useRef();
   const dataContainerRef = useRef();
+  const volumeRef = useRef();
+  const playerRef = useRef();
+  const playerContainerRef = useRef();
+  const infoContainerRef = useRef();
 
   useEffect(() => {
     axios
@@ -42,12 +51,36 @@ function AudioPlayer() {
       if (dataContainerRef.current) {
         dataContainerRef.current.style.display = "none";
         sideBarRef.current.style.display = "flex";
+        infoContainerRef.current.style.display = "none";
+        playerContainerRef.current.style.display = "block";
       }
     } else {
       if (dataContainerRef.current) {
         dataContainerRef.current.style.display = "flex";
         sideBarRef.current.style.display = "none";
       }
+    }
+  };
+
+  const toggleVolume = () => {
+    setVolumeIsOpen(!volumeIsOpen);
+    if (volumeIsOpen) {
+      volumeRef.current.style.display = "none";
+      playerRef.current.style.width = "100%";
+    } else {
+      volumeRef.current.style.display = "block";
+      playerRef.current.style.width = "80%";
+    }
+  };
+
+  const toggleInfo = () => {
+    setInfoIsOpen(!infoIsOpen);
+    if (infoIsOpen) {
+      infoContainerRef.current.style.display = "none";
+      playerContainerRef.current.style.display = "block";
+    } else {
+      infoContainerRef.current.style.display = "block";
+      playerContainerRef.current.style.display = "none";
     }
   };
 
@@ -117,18 +150,31 @@ function AudioPlayer() {
     setIsPlaying(true);
   };
 
+  const handlePlaylistItem = (index) => {
+    setCurrentTrackIndex(index);
+    setIsPlaying(true);
+  };
+
   return (
     <div className={`${classes.audioPlayer} ${isOpen ? classes.open : ""}`}>
-      <div className={classes.openButton} onClick={togglePanel}>
-        {isOpen ? (
-          <img src={rightIcon} className={classes.openArrow} />
-        ) : (
-          <img src={leftIcon} className={classes.openArrow} />
-        )}
-        <div>Audio player</div>
-        <div>i</div>
+      <div className={classes.header}>
+        <div className={classes.flex}>
+          <div onClick={togglePanel} className={classes.openArrow}>
+            {isOpen ? <img src={rightIcon} /> : <img src={leftIcon} />}
+          </div>
+          <div className={classes.headerButton2}></div>
+        </div>
+        <div>Mini audio player</div>
+        <div className={classes.flex}>
+          <div onClick={toggleVolume} className={classes.headerButton}>
+            <img src={volumeIcon2} />
+          </div>
+          <div onClick={toggleInfo} className={classes.headerButton}>
+            <img src={infoIcon} />
+          </div>
+        </div>
       </div>
-      <div className={classes.main}>
+      <div ref={playerContainerRef}>
         <div className={classes.sideButtons} ref={sideBarRef}>
           <img src={note} className={classes.note} />
           <img
@@ -136,50 +182,98 @@ function AudioPlayer() {
             className={classes.playButton}
             onClick={togglePlayPause}
           />
+
+          <img
+            src={nextIcon}
+            className={classes.playButton}
+            onClick={nextTrack}
+          />
         </div>
 
-        <div className={classes.volumeControl}>
+        <div className={classes.dataContainer} ref={dataContainerRef}>
+          <div className={classes.playerContainer} ref={playerRef}>
+            <div>{playlist[currentTrackIndex]?.title || "Loading..."}</div>
+            <div style={{ width: `${(currentTime / duration) * 100}%` }} />
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={(currentTime / duration) * 100 || 0}
+              onChange={handleProgressChange}
+              className={classes.progressBar}
+            />
+
+            <div className={classes.trackControls}>
+              <img
+                src={prevIcon}
+                className={classes.playButton2}
+                onClick={prevTrack}
+              />
+              <img
+                src={isPlaying ? pauseIcon : playIcon}
+                className={classes.playButton2}
+                onClick={togglePlayPause}
+              />
+              <img
+                src={nextIcon}
+                className={classes.playButton2}
+                onClick={nextTrack}
+              />
+            </div>
+          </div>
+
           <input
             type="range"
             min="0"
             max="1"
             step="0.01"
+            ref={volumeRef}
             value={audioRef.current?.volume || 1}
             onChange={(event) => (audioRef.current.volume = event.target.value)}
             className={classes.volumeSlider}
           />
         </div>
 
-        <div className={classes.dataContainer} ref={dataContainerRef}>
-          <div>{playlist[currentTrackIndex]?.title || "Loading..."}</div>
-          <div style={{ width: `${(currentTime / duration) * 100}%` }} />
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={(currentTime / duration) * 100 || 0}
-            onChange={handleProgressChange}
-            className={classes.progressBar}
-          />
+        <div className={classes.spacer}></div>
 
-          <div className={classes.trackControls}>
-            <img
-              src={prevIcon}
-              className={classes.playButton2}
-              onClick={prevTrack}
-            />
-            <img
-              src={isPlaying ? pauseIcon : playIcon}
-              className={classes.playButton2}
-              onClick={togglePlayPause}
-            />
-            <img
-              src={nextIcon}
-              className={classes.playButton2}
-              onClick={nextTrack}
-            />
-          </div>
+        <div className={classes.playlistContainer}>
+          {playlist.map((track, index) => (
+            <div
+              key={index}
+              onClick={() => handlePlaylistItem(index)}
+              className={classes.playlistItem}
+            >
+              <span>{track.title}</span>
+              <span>{track.time}</span>
+            </div>
+          ))}
         </div>
+      </div>
+      <div className={classes.infoContainer} ref={infoContainerRef}>
+        <b>Mini audio player developed in React</b>
+        <br />
+        <br />
+        Import the playlist by fetching the JSON file.
+        <br />
+        <br />
+        Audio track are generated by Suno Ai.
+        <br />
+        Lyrics by Davide Balice
+        <br />
+        <br />
+        <div className={classes.spacer}></div>
+        <br />
+        <br />
+        <b>Github</b>
+        <br />
+        <br />
+        <a
+          href="https://github.com/davidebalice/react-mini-audio-player"
+          target="_blank"
+          rel="noreferrer"
+        >
+          github.com/davidebalice/react-mini-audio-player
+        </a>
       </div>
     </div>
   );
