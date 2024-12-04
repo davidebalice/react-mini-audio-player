@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
+import infoIcon from "../audio/images/info.png";
 import leftIcon from "../audio/images/left.png";
 import nextIcon from "../audio/images/next.png";
 import note from "../audio/images/nota.png";
@@ -8,7 +9,6 @@ import pauseIcon from "../audio/images/pause.png";
 import playIcon from "../audio/images/play.png";
 import prevIcon from "../audio/images/prev.png";
 import rightIcon from "../audio/images/right.png";
-import infoIcon from "../audio/images/info.png";
 import volumeIcon2 from "../audio/images/volume2.png";
 
 import classes from "../index.module.css";
@@ -241,7 +241,9 @@ function AudioPlayer() {
             <div
               key={index}
               onClick={() => handlePlaylistItem(index)}
-              className={classes.playlistItem}
+              className={`${classes.playlistItem} ${
+                index === currentTrackIndex ? classes.playlistItemActive : ""
+              }`}
             >
               <span>{track.title}</span>
               <span>{track.time}</span>
